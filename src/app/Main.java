@@ -25,6 +25,9 @@ public class Main {
 
         FinalData finalExp = SortingExp(prepareTokens.tokens, prepareTokens.priorityMap);
 
+        System.out.println("\nRandom init + first calculation:");
+        finalExp.calc.initRandomAndCalc();
+
         System.out.println("\nCommands:");
         System.out.println("  print          - print AST");
         System.out.println("  calc           - calculate expression");
@@ -60,7 +63,6 @@ public class Main {
                 continue;
             }
 
-            // new var: name = number
             if (line.contains("=")) {
                 String[] parts = line.split("=");
                 if (parts.length != 2) {
@@ -71,13 +73,11 @@ public class Main {
                 String name = parts[0].trim();
                 String valueStr = parts[1].trim();
 
-                // имя переменной: буква + буквы/цифры
                 if (!name.matches("[A-Za-z][A-Za-z0-9]*")) {
                     System.out.println("ERROR: invalid variable name");
                     continue;
                 }
 
-                // значение: целое число
                 if (!valueStr.matches("-?\\d+")) {
                     System.out.println("ERROR: invalid integer value");
                     continue;
@@ -382,13 +382,35 @@ public class Main {
             variables.put(name, value);
         }
 
-        public void setVariables(Map<String, Integer> vars) {
-            variables.clear();
-            variables.putAll(vars);
-        }
-
         public Map<String, Integer> getVariables() {
             return new HashMap<>(variables);
+        }
+
+        public void initRandomAndCalc() {
+            Random r = new Random();
+
+            for (String[] exp : expression.values()) {
+                initVar(exp[0], r);
+                initVar(exp[2], r);
+            }
+
+            System.out.println("Variables:");
+            for (Map.Entry<String, Integer> e : variables.entrySet()) {
+                System.out.println("  " + e.getKey() + " = " + e.getValue());
+            }
+
+
+            calc_result();
+        }
+
+        private void initVar(String token, Random r) {
+            token = token.trim();
+
+            if (token.matches("-?\\d+")) return;      // число
+            if (expression.containsKey(token)) return; // var1, var2...
+            if (!variables.containsKey(token)) {
+                variables.put(token, 1 + r.nextInt(100)); // случайное число
+            }
         }
 
         public void calc_result() {
