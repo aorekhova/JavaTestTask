@@ -11,8 +11,6 @@ class CalcResultTests {
         test_ok_result_74();
         test_unknown_variable();
         test_division_by_zero();
-
-        System.out.println("\nALL CALC_RESULT TESTS PASSED ✅");
     }
 
     static void test_ok_result_74() {

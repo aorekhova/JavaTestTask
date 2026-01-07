@@ -1,6 +1,6 @@
 package tests;
 
-import app.Main.AstPrinter;   // ✅ ВАЖНО
+import app.Main.AstPrinter;
 import java.util.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -9,7 +9,6 @@ class PrinterTest {
 
     public static void main(String[] args) {
         test_printer_simple_tree();
-        System.out.println("PRINTER TEST PASSED ✅");
     }
 
     static void test_printer_simple_tree() {
